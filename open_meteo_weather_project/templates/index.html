@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>سامانه اطلاعات آب‌وهوا</title>
+    <style>
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f2f4f6;
+            color: #263238;
+            margin: 30px 16px;
+        }
+        main { max-width: 900px; margin: auto; }
+        section {
+            background: white;
+            padding: 20px;
+            margin: 18px 0;
+            border-radius: 8px;
+        }
+        input, button {
+            padding: 10px;
+            font: inherit;
+        }
+        input { width: min(280px, 60%); }
+        button {
+            background: transparent;
+            color: #263238;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background: #edf2f5; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: right;
+        }
+        th { background: #edf2f5; }
+        .scroll { overflow-x: auto; }
+        .error { color: #b00020; }
+        .result p { line-height: 1.9; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>سامانه اطلاعات آب‌وهوا</h1>
+
+    <section>
+        <h2>جستجوی شهر</h2>
+        <form method="post">
+            <input type="text" name="city" placeholder="نام شهر را وارد کنید" required>
+            <button type="submit">جستجوی شهر</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </section>
+
+    {% if result %}
+    <section class="result">
+        <h2>وضعیت آب‌وهوای {{ result.city }}</h2>
+        <p>دما: {{ result.temp }} درجه سانتی‌گراد</p>
+        <p>رطوبت: {{ result.humidity if result.humidity is not none else 'نامشخص' }} درصد</p>
+        <p>فشار هوا: {{ result.pressure if result.pressure is not none else 'نامشخص' }} هکتوپاسکال</p>
+        <p>وضعیت هوا: {{ result.description }}</p>
+    </section>
+    {% endif %}
+
+    <section>
+        <h2>سوابق جستجو</h2>
+        {% if history %}
+        <div class="scroll">
+            <table>
+                <tr>
+                    <th>شهر</th>
+                    <th>دما</th>
+                    <th>رطوبت</th>
+                    <th>فشار</th>
+                    <th>وضعیت هوا</th>
+                    <th>تاریخ</th>
+                </tr>
+                {% for item in history %}
+                <tr>
+                    <td>{{ item.city }}</td>
+                    <td>{{ item.temp }}</td>
+                    <td>{{ item.humidity if item.humidity is not none else 'نامشخص' }}</td>
+                    <td>{{ item.pressure if item.pressure is not none else 'نامشخص' }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% else %}
+            <p>هنوز جستجویی ثبت نشده است.</p>
+        {% endif %}
+    </section>
+</main>
+</body>
+</html>
