@@ -16,7 +16,6 @@ import os
 app = FastAPI(
     title="MDF SHOP MANAGEMENT",
     description="MDF shop management API using FastAPI, Peewee and MySQL. All data is sent as JSON.",
-    version="1.0.0"
 )
 
 # Database settings are read from environment variables.
