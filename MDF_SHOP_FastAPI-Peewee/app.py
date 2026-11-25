@@ -15,7 +15,6 @@ from peewee import (
 app = FastAPI(
     title="MDF SHOP MANAGEMENT",
     description="MDF shop management API using FastAPI, Peewee and SQLite. All data is sent as JSON.",
-    version="1.0.0"
 )
 
 db = SqliteDatabase("mdf_shop.db")
